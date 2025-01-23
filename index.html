@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Audio Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-container">
+        <header class="header">
+            <h1 class="title">PDF to Audio Converter</h1>
+            <p class="subtitle">Easily transform PDF files into high-quality audio with just a click.</p>
+        </header>
+
+        <main class="content">
+            <div class="form-container">
+                <h2 class="section-title">Upload Your PDF</h2>
+                <form method="POST" action="/upload" enctype="multipart/form-data">
+                    <label for="pdf" class="file-input-label">
+                        <input type="file" id="pdf" name="pdf" accept="application/pdf" required onchange="updateFileName(this)">
+                        <span class="custom-file-button">Choose File</span>
+                        <span class="file-text" id="file-text">No file chosen</span>
+                    </label>
+                    <button class="convert-btn" type="submit">Convert Now 🎧</button>
+                </form>
+            </div>
+
+            {% if audio_url %}
+            <div class="output-container">
+                <h2 class="section-title">🎉 Your Audio is Ready!</h2>
+                <audio controls class="audio-player">
+                    <source src="{{ audio_url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <a class="download-btn" href="{{ download_url }}" download>⬇️ Download Audio</a>
+            </div>
+            {% endif %}
+        </main>
+
+        <footer class="footer">
+            <p class="footer-text">Developed with ❤️ by <strong>Aahyan Panta</strong> and <strong>Ritesh Paudel</strong></p>
+        </footer>
+    </div>
+
+    <script>
+        function updateFileName(input) {
+            const fileName = input.files.length ? input.files[0].name : 'No file chosen';
+            document.getElementById('file-text').textContent = fileName;
+        }
+    </script>
+</body>
+</html>
